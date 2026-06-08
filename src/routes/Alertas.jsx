@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { ESTADOS_BR, getCidadesPorUf, getLocalizacaoPorUfCidade } from '../data/localizacoes.js'
 
 const TIPOS_ALERTA = [
   { id: 'seca',          label: 'Seca / estiagem' },
@@ -7,16 +8,13 @@ const TIPOS_ALERTA = [
   { id: 'pragas',        label: 'Pragas e doenças' },
 ]
 
-const REGIOES = [
-  'Sul', 'Sudeste', 'Centro-Oeste', 'Nordeste', 'Norte'
-]
-
 const STORAGE_KEY = 'agroorb-cadastros'
 
 export default function Alertas() {
   const [form, setForm] = useState({
     nome: '',
-    regiao: '',
+    estado: '',
+    cidade: '',
     telefone: '',
     tipos: [],
   })
@@ -39,7 +37,9 @@ export default function Alertas() {
   }, [])
 
   // Último nome cadastrado — usado pra mostrar "Bem-vindo de volta"
-  const ultimoNome = cadastros.length > 0 ? cadastros[cadastros.length - 1].nome : null
+  const ultimoCadastro = cadastros.length > 0 ? cadastros[cadastros.length - 1] : null
+  const ultimoNome = ultimoCadastro ? ultimoCadastro.nome : null
+  const cidadesDisponiveis = form.estado ? getCidadesPorUf(form.estado) : []
 
   function toggleTipo(tipoId) {
     setForm((f) => ({
@@ -52,14 +52,20 @@ export default function Alertas() {
 
   function handleChange(e) {
     const { name, value } = e.target
-    setForm((f) => ({ ...f, [name]: value }))
+    setForm((f) => {
+      if (name === 'estado') {
+        return { ...f, estado: value, cidade: '' }
+      }
+      return { ...f, [name]: value }
+    })
     if (errors[name]) setErrors((er) => ({ ...er, [name]: null }))
   }
 
   function validate() {
     const er = {}
     if (!form.nome.trim() || form.nome.trim().length < 2) er.nome = 'Informe seu nome (mínimo 2 caracteres).'
-    if (!form.regiao) er.regiao = 'Selecione sua região.'
+    if (!form.estado) er.estado = 'Selecione seu estado.'
+    if (!form.cidade) er.cidade = 'Selecione sua cidade.'
     if (!form.telefone.trim() || form.telefone.replace(/\D/g, '').length < 10) er.telefone = 'Telefone inválido (mínimo 10 dígitos).'
     if (form.tipos.length === 0) er.tipos = 'Escolha pelo menos um tipo de alerta.'
     return er
@@ -76,8 +82,12 @@ export default function Alertas() {
     const novo = {
       ...form,
       nome: form.nome.trim(),
+      estado: ESTADOS_BR.find((item) => item.uf === form.estado)?.estado ?? form.estado,
+      uf: form.estado,
+      cidade: form.cidade,
       telefone: form.telefone.trim(),
       criadoEm: new Date().toISOString(),
+      localizacao: getLocalizacaoPorUfCidade(form.estado, form.cidade),
     }
 
     const novos = [...cadastros, novo]
@@ -89,11 +99,11 @@ export default function Alertas() {
     }
 
     // Reset form
-    setForm({ nome: '', regiao: '', telefone: '', tipos: [] })
+    setForm({ nome: '', estado: '', cidade: '', telefone: '', tipos: [] })
     setErrors({})
 
     // Toast
-    setToastMsg(`Cadastro realizado com sucesso, ${novo.nome.split(' ')[0]}!`)
+    setToastMsg(`Cadastro realizado com sucesso, ${novo.nome.split(' ')[0]}!`) 
     setToastVisible(true)
     setTimeout(() => setToastVisible(false), 4000)
   }
@@ -163,24 +173,45 @@ export default function Alertas() {
               {errors.nome && <div id="err-nome" className="field__error">▸ {errors.nome}</div>}
             </div>
 
-            {/* Região */}
+            {/* Estado */}
             <div className="field">
-              <label className="field__label" htmlFor="regiao">Região</label>
+              <label className="field__label" htmlFor="estado">Estado</label>
               <select
-                id="regiao"
-                name="regiao"
-                value={form.regiao}
+                id="estado"
+                name="estado"
+                value={form.estado}
                 onChange={handleChange}
-                className={errors.regiao ? 'error' : ''}
-                aria-invalid={!!errors.regiao}
-                aria-describedby={errors.regiao ? 'err-regiao' : undefined}
+                className={errors.estado ? 'error' : ''}
+                aria-invalid={!!errors.estado}
+                aria-describedby={errors.estado ? 'err-estado' : undefined}
               >
-                <option value="">Selecione sua região...</option>
-                {REGIOES.map((r) => (
-                  <option key={r} value={r}>{r}</option>
+                <option value="">Selecione seu estado...</option>
+                {ESTADOS_BR.map((item) => (
+                  <option key={item.uf} value={item.uf}>{item.estado} ({item.uf})</option>
                 ))}
               </select>
-              {errors.regiao && <div id="err-regiao" className="field__error">▸ {errors.regiao}</div>}
+              {errors.estado && <div id="err-estado" className="field__error">▸ {errors.estado}</div>}
+            </div>
+
+            {/* Cidade */}
+            <div className="field">
+              <label className="field__label" htmlFor="cidade">Cidade</label>
+              <select
+                id="cidade"
+                name="cidade"
+                value={form.cidade}
+                onChange={handleChange}
+                className={errors.cidade ? 'error' : ''}
+                aria-invalid={!!errors.cidade}
+                aria-describedby={errors.cidade ? 'err-cidade' : undefined}
+                disabled={!form.estado}
+              >
+                <option value="">{form.estado ? 'Selecione sua cidade...' : 'Selecione um estado primeiro'}</option>
+                {cidadesDisponiveis.map((item) => (
+                  <option key={item.cidade} value={item.cidade}>{item.cidade}</option>
+                ))}
+              </select>
+              {errors.cidade && <div id="err-cidade" className="field__error">▸ {errors.cidade}</div>}
             </div>
 
             {/* Telefone */}
@@ -247,7 +278,7 @@ export default function Alertas() {
             <div key={i} className="saved-item">
               <div className="saved-item__name">{c.nome}</div>
               <div className="saved-item__details">
-                ▸ {c.regiao} · {c.telefone}
+                ▸ {c.cidade && c.estado ? `${c.cidade} · ${c.estado}${c.uf ? ` (${c.uf})` : ''}` : c.regiao || 'Local não informado'} · {c.telefone}
               </div>
               <div className="saved-item__alerts">
                 {c.tipos.map((tipoId) => {

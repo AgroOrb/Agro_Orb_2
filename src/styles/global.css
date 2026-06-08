@@ -1117,6 +1117,370 @@ p { color: var(--text-mute); }
 
 .alerts-widget h3 { font-size: 1.1rem; margin-bottom: 1rem; }
 
+/* Location image */
+.location-card,
+.nasa-raw-card {
+  background: linear-gradient(180deg, rgba(17, 24, 47, 0.96), rgba(11, 17, 36, 0.96));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.location-card__head,
+.nasa-raw-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.location-card__head h3,
+.nasa-raw-card__head h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+
+.location-card__sub,
+.nasa-raw-card__sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.location-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  color: #8EC5FF;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.location-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 0.9rem;
+}
+
+.location-card__meta strong {
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.location-card__meta span {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.location-card__image {
+  width: 100%;
+  min-height: 240px;
+  display: block;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
+}
+
+.location-card__placeholder,
+.nasa-raw-card__empty {
+  min-height: 220px;
+  border-radius: 22px;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0, 255, 136, 0.14), transparent 42%),
+    radial-gradient(circle at 85% 75%, rgba(59, 130, 246, 0.16), transparent 40%),
+    var(--surface-2);
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.location-card__placeholder p,
+.nasa-raw-card__empty p {
+  color: var(--text-mute);
+  line-height: 1.6;
+}
+
+.location-card__placeholder span {
+  margin-top: 0.75rem;
+  display: inline-flex;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* NASA POWER raw data */
+.nasa-raw-card__empty {
+  min-height: 160px;
+}
+
+.raw-table-wrap {
+  overflow-x: auto;
+  border-radius: 22px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.raw-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.raw-table th,
+.raw-table td {
+  padding: 0.85rem 0.95rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  color: var(--text-mute);
+}
+
+.raw-table th {
+  position: sticky;
+  top: 0;
+  background: rgba(17, 24, 47, 0.98);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.raw-table td {
+  color: var(--text);
+}
+
+.raw-table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.raw-details {
+  margin-top: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.raw-details summary {
+  padding: 0.85rem 1rem;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.raw-details pre {
+  padding: 1rem;
+  overflow: auto;
+  max-height: 360px;
+  border-top: 1px solid var(--border);
+  background: rgba(6, 11, 26, 0.95);
+  color: #D1D5DB;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+/* NASA POWER preview */
+.nasa-card {
+  background: linear-gradient(180deg, rgba(17, 24, 47, 0.96), rgba(11, 17, 36, 0.96));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.nasa-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.nasa-card__head h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+
+.nasa-card__sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.nasa-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  color: #8EC5FF;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nasa-card__state {
+  display: grid;
+  gap: 1rem;
+  align-items: center;
+}
+
+.nasa-card__state p {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-mute);
+}
+
+.nasa-card__state--error p {
+  color: #FCA5A5;
+}
+
+.nasa-card__plain-summary {
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  background: rgba(0, 255, 136, 0.08);
+  border: 1px solid rgba(0, 255, 136, 0.18);
+}
+
+.nasa-card__plain-summary h4 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-bottom: 0.35rem;
+}
+
+.nasa-card__plain-summary p {
+  color: var(--text-mute);
+  line-height: 1.55;
+  margin-bottom: 0.55rem;
+}
+
+.nasa-card__plain-summary strong {
+  display: block;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.nasa-card__placeholder {
+  height: 220px;
+  border-radius: 22px;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+    radial-gradient(circle at 20% 20%, rgba(0, 255, 136, 0.14), transparent 42%),
+    radial-gradient(circle at 85% 75%, rgba(59, 130, 246, 0.16), transparent 40%),
+    var(--surface-2);
+}
+
+.nasa-card__placeholder--pulse {
+  animation: nasaPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes nasaPulse {
+  0%, 100% { opacity: 0.72; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.01); }
+}
+
+.nasa-card__image-wrap {
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
+}
+
+.nasa-card__image {
+  width: 100%;
+  height: auto;
+}
+
+.nasa-card__meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.nasa-card__meta-item,
+.nasa-card__stat,
+.nasa-card__fallback {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.nasa-card__meta-item {
+  padding: 0.85rem;
+}
+
+.nasa-card__meta-item span,
+.nasa-card__stat span,
+.nasa-card__fallback span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 0.35rem;
+}
+
+.nasa-card__meta-item strong,
+.nasa-card__stat strong,
+.nasa-card__fallback strong {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--text);
+}
+
+.nasa-card__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.nasa-card__stat {
+  padding: 0.85rem;
+}
+
+.nasa-card__stat--full {
+  grid-column: 1 / -1;
+}
+
+.nasa-card__fallback {
+  padding: 1rem;
+}
+
+@media (max-width: 720px) {
+  .nasa-card__meta,
+  .nasa-card__stats {
+    grid-template-columns: 1fr;
+  }
+}
+
 .alert-item {
   display: grid;
   grid-template-columns: auto 1fr auto;
